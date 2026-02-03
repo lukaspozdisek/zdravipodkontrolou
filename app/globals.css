@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 13% 11%;
+    --foreground: 0 0% 98%;
+    --card: 220 13% 18%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 13% 18%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 168 100% 42%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 220 13% 25%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 13% 25%;
+    --muted-foreground: 0 0% 56%;
+    --accent: 168 100% 42%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 4 90% 58%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 25%;
+    --input: 220 13% 25%;
+    --ring: 168 100% 42%;
+    --radius: 0.75rem;
+    
+    /* App-specific colors */
+    --app-purple: 280 67% 60%;
+    --app-gold: 51 100% 50%;
+    --app-orange: 32 100% 50%;
+    --app-red: 4 100% 59%;
+    --app-green: 142 71% 45%;
+    --app-blue: 211 100% 50%;
+    --app-gray: 240 4% 56%;
+    
+    /* Chart colors */
+    --chart-1: 168 100% 42%;
+    --chart-2: 280 67% 60%;
+    --chart-3: 51 100% 50%;
+    --chart-4: 32 100% 50%;
+    --chart-5: 211 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* Hide Next.js badge and error messages */
+body > nextjs-portal {
+  display: none;
+}
+
+/* Recharts customization */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: hsl(var(--border));
+  stroke-opacity: 0.3;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
+/* Tab navigation */
+.tab-active {
+  @apply bg-primary text-primary-foreground;
+}
+
+/* Syringe visualization */
+.syringe-fill {
+  transition: width 0.3s ease-out;
+}
+
+/* Animated stars background */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.nutrition-stars {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nutrition-star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.nutrition-star:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+.nutrition-star:nth-child(2) { top: 25%; left: 80%; animation-delay: 0.4s; }
+.nutrition-star:nth-child(3) { top: 15%; left: 45%; animation-delay: 0.8s; }
+.nutrition-star:nth-child(4) { top: 50%; left: 10%; animation-delay: 1.2s; }
+.nutrition-star:nth-child(5) { top: 60%; left: 90%; animation-delay: 0.2s; }
+.nutrition-star:nth-child(6) { top: 80%; left: 30%; animation-delay: 0.6s; }
+.nutrition-star:nth-child(7) { top: 70%; left: 65%; animation-delay: 1s; }
+.nutrition-star:nth-child(8) { top: 35%; left: 25%; animation-delay: 1.4s; }
+
+/* Circular progress ring */
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+  transition: stroke-dashoffset 0.5s ease-out;
+}
