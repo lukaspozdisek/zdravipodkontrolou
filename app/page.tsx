@@ -1,7 +1,7 @@
 "use client";
 
 import { AppShell } from "@/components/app-shell";
-import { LoginForm } from "@/components/login-form";
+import { LoginForm } from "@/components/auth/login-form";
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { Loader2 } from "lucide-react";
 
