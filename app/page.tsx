@@ -1,33 +1,30 @@
 "use client";
 
 import { AppShell } from "@/components/app-shell";
-// Pokud máte soubor login-form.tsx ve složce src/components, použijte toto:
 import { LoginForm } from "@/components/auth/login-form";
+// Tyto tři komponenty jsou váš "testovací skript"
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { Loader2 } from "lucide-react";
 
 export default function Home() {
   return (
-    <main>
-      {/* 1. STAV: Načítání - zobrazí se při ověřování session (např. po refresh) */}
+    <>
+      {/* 1. Pokud se stav ještě načítá (např. po kliknutí na Google) */}
       <AuthLoading>
-        <div className="min-h-screen flex items-center justify-center bg-background">
-          <div className="flex flex-col items-center gap-2">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground font-medium">Ověřování přihlášení...</p>
-          </div>
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       </AuthLoading>
 
-      {/* 2. STAV: Přihlášen - Convex potvrdil, že uživatel je OK */}
+      {/* 2. Pokud se Convex (podle vašich logů) úspěšně spojil */}
       <Authenticated>
         <AppShell />
       </Authenticated>
 
-      {/* 3. STAV: Nepřihlášen - Zobrazíme formulář s Google tlačítkem */}
+      {/* 3. Pokud uživatel ještě není v logách vidět jako přihlášený */}
       <Unauthenticated>
         <LoginForm />
       </Unauthenticated>
-    </main>
+    </>
   );
 }
