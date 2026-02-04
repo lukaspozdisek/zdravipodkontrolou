@@ -1,30 +1,34 @@
 "use client";
 
+import { useConvexAuth } from "convex/react";
 import { AppShell } from "@/components/app-shell";
 import { LoginForm } from "@/components/auth/login-form";
-// Tyto tři komponenty jsou váš "testovací skript"
-import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
-import { Loader2 } from "lucide-react";
 
 export default function Home() {
-  return (
-    <>
-      {/* 1. Pokud se stav ještě načítá (např. po kliknutí na Google) */}
-      <AuthLoading>
-        <div className="min-h-screen flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+  const { isLoading, isAuthenticated } = useConvexAuth();
+
+  // 1. Logování do konzole prohlížeče (F12) pro kontrolu
+  console.log("Stav přihlášení:", { isLoading, isAuthenticated });
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-100">
+        <div className="text-center">
+          <p className="text-xl font-bold animate-pulse">Načítám Convex stav...</p>
+          <p className="text-sm text-gray-500">Sleduji logy: {new Date().toLocaleTimeString()}</p>
         </div>
-      </AuthLoading>
+      </div>
+    );
+  }
 
-      {/* 2. Pokud se Convex (podle vašich logů) úspěšně spojil */}
-      <Authenticated>
-        <AppShell />
-      </Authenticated>
+  return (
+    <div className="relative">
+      {/* Miniaturní debug lišta nahoře na webu */}
+      <div className={`fixed top-0 left-0 w-full p-1 text-center text-xs text-white z-[9999] ${isAuthenticated ? 'bg-green-600' : 'bg-red-600'}`}>
+        DEBUG: {isAuthenticated ? "JSTE PŘIHLÁŠEN ✅" : "NENÍ PŘIHLÁŠENO ❌"}
+      </div>
 
-      {/* 3. Pokud uživatel ještě není v logách vidět jako přihlášený */}
-      <Unauthenticated>
-        <LoginForm />
-      </Unauthenticated>
-    </>
+      {isAuthenticated ? <AppShell /> : <LoginForm />}
+    </div>
   );
 }
