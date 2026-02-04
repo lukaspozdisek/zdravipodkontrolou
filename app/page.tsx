@@ -1,35 +1,37 @@
 "use client";
 
-import { useConvexAuth } from "convex/react";
+import { useEffect, useState } from "react";
 import { AppShell } from "@/components/app-shell";
 import { LoginForm } from "@/components/auth/login-form";
+import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
+import { Loader2 } from "lucide-react";
 
 export default function Home() {
-  const { isLoading, isAuthenticated } = useConvexAuth();
+  const [mounted, setMounted] = useState(false);
 
-  // 1. Logování do konzole prohlížeče (F12) pro kontrolu
-  console.log("Stav přihlášení:", { isLoading, isAuthenticated });
+  // Počkáme, až se komponenta připojí v prohlížeči
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <p className="text-xl font-bold animate-pulse">Načítám Convex stav...</p>
-          <p className="text-sm text-gray-500">Sleduji logy: {new Date().toLocaleTimeString()}</p>
-        </div>
-      </div>
-    );
-  }
+  // Dokud nejsme v prohlížeči, nevyrenderujeme nic (zabráníme Hydration Error)
+  if (!mounted) return null;
 
   return (
-    <div className="relative">
-      {/* Miniaturní debug lišta nahoře na webu */}
-      <div className={`fixed top-0 left-0 w-full p-1 text-center text-xs text-white z-[9999] ${isAuthenticated ? 'bg-green-600' : 'bg-red-600'}`}>
-        DEBUG: {isAuthenticated ? "JSTE PŘIHLÁŠEN ✅" : "NENÍ PŘIHLÁŠENO ❌"}
-      </div>
+    <main>
+      <AuthLoading>
+        <div className="min-h-screen flex items-center justify-center bg-background">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </AuthLoading>
 
-      {isAuthenticated ? <AppShell /> : <LoginForm />}
-    </div>
+      <Authenticated>
+        <AppShell />
+      </Authenticated>
+
+      <Unauthenticated>
+        <LoginForm />
+      </Unauthenticated>
+    </main>
   );
 }
-
