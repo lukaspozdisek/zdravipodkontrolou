@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://outgoing-vulture-660.convex.cloud", 
+      domain: process.env.SITE_URL,
       applicationID: "convex",
     },
   ],
