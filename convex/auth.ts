@@ -12,3 +12,4 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
     Password({ reset: ResendOTP, verify: ResendOTP })
   ],
 })
+
